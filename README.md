@@ -1,4 +1,5 @@
 # PruebaADL_Modulo5
+
 Prueba de introduccion a base de datos
 
 1. Revisa el tipo de relación y crea el modelo correspondiente. Respeta las claves primarias, foráneas y tipos de datos.
@@ -133,4 +134,33 @@ Prueba de introduccion a base de datos
         where r.respuesta = p.respuesta_correcta
         group by u.id, u.nombre, r.id
         order by r.id desc;
+```
+
+7. Por cada pregunta, en la tabla preguntas, cuenta cuántos usuarios respondieron correctamente.
+
+```SQL
+    select p.id, p.pregunta, count(case when r.respuesta = p.respuesta_correcta then 1 end) from Preguntas p 
+    left join respuestas r on p.id = r.pregunta_id
+    group by p.id, p.pregunta
+    order by p.id asc;
+```
+
+8. Implementa un borrado en cascada de las respuestas al borrar un usuario. Prueba la implementación borrando el primer usuario.
+
+```SQL
+    delete from Usuarios where id = 1;
+    select * from Respuestas where usuario_id=1;
+```
+
+9. Crea una restricción que impida insertar usuarios menores de 18 años en la base de datos.
+
+```SQL
+    alter table Usuarios add constraint chk_edad check (edad >= 18);
+```
+
+10. Altera la tabla existente de usuarios agregando el campo email. Debe tener la restricción de ser único.
+
+```SQL
+    alter table Usuarios add column email varchar(255);
+    alter table Usuarios add constraint unq_email unique(email);
 ```
